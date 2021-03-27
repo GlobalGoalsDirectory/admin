@@ -1,0 +1,27 @@
+{
+  "name": "global-goals-directory-admin",
+  "version": "1.0.0",
+  "description": "The admin interface for the Global Goals Directory.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "mdi-material-ui": "^6.22.0",
+    "next": "^10.0.9",
+    "nextjs-progressbar": "0.0.8",
+    "prettier": "^2.1.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "styled-components": "^5.2.1"
+  },
+  "devDependencies": {
+    "babel-plugin-module-resolver": "^4.1.0",
+    "babel-plugin-styled-components": "^1.12.0"
+  }
+}
