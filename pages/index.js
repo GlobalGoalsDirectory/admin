@@ -1,14 +1,40 @@
-import { Typography } from "@material-ui/core";
+import { Box, Button, Paper, Typography } from "@material-ui/core";
+import { DataGrid } from "@material-ui/data-grid";
+import AppLayout from "layouts/AppLayout";
+
+const COLUMNS = [
+  { field: "id", headerName: "Domain", flex: 1 },
+  { field: "name", headerName: "Name", flex: 1 },
+  {
+    field: "View",
+    headerName: "",
+    sortable: false,
+    filterable: false,
+    disableColumnMenu: true,
+    renderCell: ({ row }) => (
+      <Button variant="contained" color="primary" size="small">
+        View
+      </Button>
+    ),
+  },
+];
 
 const HomePage = ({ organizations }) => (
-  <>
-    <Typography variant="h1">Global Goals Directory Admin Dashboard</Typography>
-    {organizations.map((organization) => (
-      <Typography key={organization.domain} variant="body1">
-        {organization.domain}
-      </Typography>
-    ))}
-  </>
+  <AppLayout>
+    <Typography variant="h1" gutterBottom>
+      Organizations
+    </Typography>
+    <Box display="flex" flexGrow={1} clone>
+      <Paper>
+        <DataGrid
+          rows={organizations}
+          columns={COLUMNS}
+          disableSelectionOnClick
+          disableColumnSelector={true}
+        />
+      </Paper>
+    </Box>
+  </AppLayout>
 );
 
 import { google } from "googleapis";
@@ -42,6 +68,9 @@ export async function getServerSideProps(context) {
 
   const [headerRow, ...dataRows] = response.data.values;
   const data = dataRows.map((dataRow) => zipObject(headerRow, dataRow));
+
+  // Set ID
+  data.map((data) => (data.id = data.domain));
 
   return {
     props: {
