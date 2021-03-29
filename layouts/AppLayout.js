@@ -3,7 +3,7 @@ import { Box, Container } from "@material-ui/core";
 import NavBar from "components/NavBar";
 import SideMenu from "components/SideMenu";
 
-const AppLayout = ({ children }) => {
+const AppLayout = ({ children, isAuthenticated = false }) => {
   const [showMobileSideMenu, setShowMobileSideMenu] = useState(false);
   const openMobileSideMenu = useCallback(() => setShowMobileSideMenu(true), []);
   const closeMobileSideMenu = useCallback(
@@ -18,6 +18,7 @@ const AppLayout = ({ children }) => {
         <SideMenu
           showMobileSideMenu={showMobileSideMenu}
           onCloseMobileSideMenu={closeMobileSideMenu}
+          isAuthenticated={isAuthenticated}
         />
         <Container style={{ display: "flex" }}>
           <Box paddingY={3} display="flex" flexGrow={1} flexDirection="column">

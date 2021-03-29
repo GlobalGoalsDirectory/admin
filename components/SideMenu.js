@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Box, Drawer, Hidden } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
@@ -8,6 +9,7 @@ import {
   CheckboxMarkedCircleOutline,
   Domain,
   LogoutVariant,
+  LoginVariant,
 } from "mdi-material-ui";
 import styled from "styled-components";
 
@@ -50,35 +52,61 @@ const LeftDrawerBox = styled(Box).attrs({
   scrollbar-width: thin;
 `;
 
-const DrawerContent = () => (
-  <>
-    <List>
-      <ListItem button>
-        <ListItemIcon>
-          <Domain />
-        </ListItemIcon>
-        <ListItemText primary="Organizations" />
-      </ListItem>
-      <ListItem button>
-        <ListItemIcon>
-          <CheckboxMarkedCircleOutline />
-        </ListItemIcon>
-        <ListItemText primary="Review" />
-      </ListItem>
-    </List>
-    <Divider />
-    <List>
-      <ListItem button>
-        <ListItemIcon>
-          <LogoutVariant />
-        </ListItemIcon>
-        <ListItemText primary="Logout" />
-      </ListItem>
-    </List>
-  </>
-);
+const DrawerContent = ({ isAuthenticated }) => {
+  if (!isAuthenticated) {
+    return (
+      <List>
+        <Link href="/login" passHref>
+          <ListItem button component="a">
+            <ListItemIcon>
+              <LoginVariant />
+            </ListItemIcon>
+            <ListItemText primary="Login" />
+          </ListItem>
+        </Link>
+      </List>
+    );
+  }
 
-const SideMenu = ({ children, showMobileSideMenu, onCloseMobileSideMenu }) => (
+  return (
+    <>
+      <List>
+        <Link href="/" passHref>
+          <ListItem button component="a">
+            <ListItemIcon>
+              <Domain />
+            </ListItemIcon>
+            <ListItemText primary="Organizations" />
+          </ListItem>
+        </Link>
+        <ListItem button>
+          <ListItemIcon>
+            <CheckboxMarkedCircleOutline />
+          </ListItemIcon>
+          <ListItemText primary="Review" />
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <Link href="/logout" passHref>
+          <ListItem button component="a">
+            <ListItemIcon>
+              <LogoutVariant />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItem>
+        </Link>
+      </List>
+    </>
+  );
+};
+
+const SideMenu = ({
+  children,
+  showMobileSideMenu,
+  onCloseMobileSideMenu,
+  isAuthenticated,
+}) => (
   <>
     <Hidden implementation="css" smDown>
       <Hidden smDown initialWidth="lg">
@@ -92,7 +120,7 @@ const SideMenu = ({ children, showMobileSideMenu, onCloseMobileSideMenu }) => (
           }}
         >
           <LeftDrawerBox>
-            <DrawerContent />
+            <DrawerContent isAuthenticated={isAuthenticated} />
           </LeftDrawerBox>
         </StyledDrawer>
       </Hidden>
@@ -105,7 +133,7 @@ const SideMenu = ({ children, showMobileSideMenu, onCloseMobileSideMenu }) => (
         anchor="left"
         PaperProps={{ style: { minWidth: 200, maxWidth: "80%" } }}
       >
-        <DrawerContent />
+        <DrawerContent isAuthenticated={isAuthenticated} />
       </Drawer>
     </Hidden>
   </>

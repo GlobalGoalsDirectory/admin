@@ -20,7 +20,7 @@ const COLUMNS = [
 ];
 
 const HomePage = ({ organizations }) => (
-  <AppLayout>
+  <AppLayout isAuthenticated={true}>
     <Typography variant="h1" gutterBottom>
       Organizations
     </Typography>
@@ -39,8 +39,13 @@ const HomePage = ({ organizations }) => (
 
 import { google } from "googleapis";
 import zipObject from "lodash.zipobject";
+import authenticate from "helpers/authenticate";
+import redirectToLoginPage from "helpers/redirectToLoginPage";
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps({ req, res }) {
+  const user = await authenticate({ req, res });
+  if (!user) return redirectToLoginPage();
+
   // Load organizations from spreadsheet
   const auth = new google.auth.GoogleAuth({
     credentials: {
