@@ -79,12 +79,14 @@ const DrawerContent = ({ isAuthenticated }) => {
             <ListItemText primary="Organizations" />
           </ListItem>
         </Link>
-        <ListItem button>
-          <ListItemIcon>
-            <CheckboxMarkedCircleOutline />
-          </ListItemIcon>
-          <ListItemText primary="Review" />
-        </ListItem>
+        <Link href="/review" passHref>
+          <ListItem button component="a">
+            <ListItemIcon>
+              <CheckboxMarkedCircleOutline />
+            </ListItemIcon>
+            <ListItemText primary="Review" />
+          </ListItem>
+        </Link>
       </List>
       <Divider />
       <List>
