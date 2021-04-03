@@ -50,15 +50,12 @@ const LoginPage = () => {
   );
 };
 
-import authenticate from "helpers/authenticate";
+import withUser from "helpers/withUser";
 
-export async function getServerSideProps({ req, res }) {
-  const user = await authenticate({ req, res });
-  if (user) {
-    return { redirect: { destination: "/", permanent: false } };
-  }
+export const getServerSideProps = withUser(async ({ user }) => {
+  if (user) return { redirect: { destination: "/", permanent: false } };
 
   return { props: {} };
-}
+});
 
 export default LoginPage;

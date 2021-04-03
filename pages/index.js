@@ -37,21 +37,17 @@ const HomePage = ({ organizations }) => (
   </AppLayout>
 );
 
-import authenticate from "helpers/authenticate";
-import redirectToLoginPage from "helpers/redirectToLoginPage";
+import withAuthentication from "helpers/withAuthentication";
 import getAllOrganizations from "helpers/getAllOrganizations";
 
-export async function getServerSideProps({ req, res }) {
-  const user = await authenticate({ req, res });
-  if (!user) return redirectToLoginPage();
-
-  const organizations = await getAllOrganizations({ req });
+export const getServerSideProps = withAuthentication(async () => {
+  const organizations = await getAllOrganizations();
 
   return {
     props: {
       organizations,
     },
   };
-}
+});
 
 export default HomePage;

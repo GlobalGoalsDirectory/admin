@@ -1,14 +1,12 @@
 const LogoutPage = () => null;
 
-import redirectToLoginPage from "helpers/redirectToLoginPage";
-
-export async function getServerSideProps({ req, res }) {
+export const getServerSideProps = ({ res }) => {
   res.setHeader(
     "Set-Cookie",
     "nf_jwt=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"
   );
 
-  return redirectToLoginPage();
-}
+  return { redirect: { destination: "/login", permanent: false } };
+};
 
 export default LogoutPage;

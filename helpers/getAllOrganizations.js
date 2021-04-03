@@ -1,14 +1,6 @@
-import faunadb from "faunadb";
-import doNotWaitForEmptyEventLoop from "helpers/doNotWaitForEmptyEventLoop";
+import { q, client } from "helpers/fauna";
 
-const q = faunadb.query;
-const client = new faunadb.Client({
-  secret: process.env.FAUNADB_KEY,
-});
-
-const getAllOrganizations = async (context) => {
-  doNotWaitForEmptyEventLoop(context);
-
+const getAllOrganizations = async () => {
   const { data } = await client.query(
     q.Paginate(q.Match(q.Ref("indexes/all_organizations")), { size: 5000 })
   );
