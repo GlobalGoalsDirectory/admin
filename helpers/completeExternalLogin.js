@@ -18,7 +18,11 @@ const completeExternalLogin = async () => {
       params[key] = value;
     });
     if (!!document && params["access_token"]) {
-      document.cookie = `nf_jwt=${params["access_token"]}`;
+      // Expires after 30 days (60 * 60 * 24 * 30 seconds)
+      // TODO: Use HttpOnly cookie: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie#security
+      document.cookie = `nf_jwt=${params["access_token"]}; Max-Age=${
+        60 * 60 * 24 * 30
+      }; Secure`;
     }
     if (params["state"]) {
       try {
