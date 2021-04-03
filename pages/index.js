@@ -45,7 +45,7 @@ export async function getServerSideProps({ req, res }) {
   const user = await authenticate({ req, res });
   if (!user) return redirectToLoginPage();
 
-  const organizations = await getAllOrganizations();
+  const organizations = await getAllOrganizations({ req });
 
   return {
     props: {
