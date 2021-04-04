@@ -6,6 +6,8 @@ const authenticate = async ({ req, res }) => {
   const cookies = new Cookies(req, res);
   const auth_cookie = cookies.get("nf_jwt");
 
+  if (auth_cookie == null) return false;
+
   try {
     return await auth.createUser({ access_token: auth_cookie });
   } catch (e) {
