@@ -1,8 +1,21 @@
 diff --git a/node_modules/gotrue-js/lib/user.js b/node_modules/gotrue-js/lib/user.js
-index 53587ae..b7e0865 100644
+index 53587ae..c349272 100644
 --- a/node_modules/gotrue-js/lib/user.js
 +++ b/node_modules/gotrue-js/lib/user.js
-@@ -284,6 +284,14 @@ var User = /*#__PURE__*/function () {
+@@ -29,7 +29,11 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
+ 
+ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+ 
+-var ExpiryMargin = 60 * 1000;
++// Increase expiry margin to 15 minutes, so that a new JWT is issued in the
++// last 15 minutes of its validity. Previously, this was set to one minute,
++// which means that we would need to refresh the JWT every 10-30 seconds to be
++// safe — that's too often
++var ExpiryMargin = 15 * 60 * 1000;
+ var storageKey = 'gotrue.user';
+ var refreshPromises = {};
+ var currentUser = null;
+@@ -284,6 +288,14 @@ var User = /*#__PURE__*/function () {
  
  exports["default"] = User;
  
@@ -17,7 +30,7 @@ index 53587ae..b7e0865 100644
  function urlBase64Decode(str) {
    // From https://jwt.io/js/jwt.js
    var output = str.replace(/-/g, '+').replace(/_/g, '/');
-@@ -304,8 +312,7 @@ function urlBase64Decode(str) {
+@@ -304,8 +316,7 @@ function urlBase64Decode(str) {
        throw 'Illegal base64url string!';
    } // polifyll https://github.com/davidchambers/Base64.js
  

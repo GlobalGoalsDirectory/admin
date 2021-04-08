@@ -24,7 +24,7 @@ const COLUMNS = [
 ];
 
 const ReviewPage = ({ organizations }) => (
-  <AppLayout isAuthenticated={true}>
+  <AppLayout>
     <Typography variant="h1" gutterBottom>
       Review
     </Typography>

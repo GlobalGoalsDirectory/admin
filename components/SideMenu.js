@@ -12,6 +12,7 @@ import {
   LoginVariant,
 } from "mdi-material-ui";
 import styled from "styled-components";
+import useUser from "helpers/useUser";
 
 const StyledDrawer = styled(Drawer).attrs(({ width, PaperProps }) => ({
   style: {
@@ -52,8 +53,10 @@ const LeftDrawerBox = styled(Box).attrs({
   scrollbar-width: thin;
 `;
 
-const DrawerContent = ({ isAuthenticated }) => {
-  if (!isAuthenticated) {
+const DrawerContent = () => {
+  const user = useUser();
+
+  if (!user) {
     return (
       <List>
         <Link href="/login" passHref>
@@ -103,12 +106,7 @@ const DrawerContent = ({ isAuthenticated }) => {
   );
 };
 
-const SideMenu = ({
-  children,
-  showMobileSideMenu,
-  onCloseMobileSideMenu,
-  isAuthenticated,
-}) => (
+const SideMenu = ({ children, showMobileSideMenu, onCloseMobileSideMenu }) => (
   <>
     <Hidden implementation="css" smDown>
       <Hidden smDown initialWidth="lg">
@@ -122,7 +120,7 @@ const SideMenu = ({
           }}
         >
           <LeftDrawerBox>
-            <DrawerContent isAuthenticated={isAuthenticated} />
+            <DrawerContent />
           </LeftDrawerBox>
         </StyledDrawer>
       </Hidden>
@@ -135,7 +133,7 @@ const SideMenu = ({
         anchor="left"
         PaperProps={{ style: { minWidth: 200, maxWidth: "80%" } }}
       >
-        <DrawerContent isAuthenticated={isAuthenticated} />
+        <DrawerContent />
       </Drawer>
     </Hidden>
   </>

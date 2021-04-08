@@ -1,7 +1,8 @@
 import auth from "helpers/auth";
 
-// Check if the login is complete. If so, save auth cookie for user and return
-// user object.
+// Check if the login is complete. If so, create & return user object.
+// This does NOT set the needed JWT cookie. We need to force refresh JWT
+// afterwards to get the JWT httpOnly cookie.
 // From: https://github.com/netlify/netlify-identity-widget/blob/bf72002a14876b02cd1a4d05e6de94546dd2952b/src/netlify-identity.js#L197
 const completeExternalLogin = async () => {
   const hash = (document.location.hash || "").replace(/^#\/?/, "");
@@ -17,13 +18,6 @@ const completeExternalLogin = async () => {
       const [key, value] = pair.split("=");
       params[key] = value;
     });
-    if (!!document && params["access_token"]) {
-      // Expires after 30 days (60 * 60 * 24 * 30 seconds)
-      // TODO: Use HttpOnly cookie: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie#security
-      document.cookie = `nf_jwt=${params["access_token"]}; Max-Age=${
-        60 * 60 * 24 * 30
-      }; Secure`;
-    }
     if (params["state"]) {
       try {
         // skip initialization for implicit auth

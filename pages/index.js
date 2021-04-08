@@ -20,7 +20,7 @@ const COLUMNS = [
 ];
 
 const HomePage = ({ organizations }) => (
-  <AppLayout isAuthenticated={true}>
+  <AppLayout>
     <Typography variant="h1" gutterBottom>
       Organizations
     </Typography>

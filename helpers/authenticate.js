@@ -1,5 +1,10 @@
 import Cookies from "cookies";
-import auth from "helpers/auth";
+import GoTrue from "gotrue-js";
+
+const auth = new GoTrue({
+  APIUrl: "https://admin.globalgoals.directory/.netlify/identity",
+  setCookie: false,
+});
 
 // Return the user object if user is currently logged in
 const authenticate = async ({ req, res }) => {
