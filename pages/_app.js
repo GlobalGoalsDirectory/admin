@@ -29,6 +29,9 @@ function MyApp({ Component, pageProps }) {
   // Netlify identity is smart and will only request a new token when the
   // current JWT is nearing its expiration time.
   useEffect(() => {
+    // Refresh JWT once at start
+    auth.currentUser()?.jwt();
+
     const REFRESH_INTERVAL_IN_MINS = 5;
     let jwtRefreshInterval = setInterval(
       () => auth.currentUser()?.jwt(),
