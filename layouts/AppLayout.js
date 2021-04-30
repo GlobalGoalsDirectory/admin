@@ -3,7 +3,7 @@ import { Box, Container } from "@material-ui/core";
 import NavBar from "components/NavBar";
 import SideMenu from "components/SideMenu";
 
-const AppLayout = ({ children }) => {
+const AppLayout = ({ children, contentBoxProps = {} }) => {
   const [showMobileSideMenu, setShowMobileSideMenu] = useState(false);
   const openMobileSideMenu = useCallback(() => setShowMobileSideMenu(true), []);
   const closeMobileSideMenu = useCallback(
@@ -14,7 +14,7 @@ const AppLayout = ({ children }) => {
   return (
     <Box display="flex" minHeight="100vh" flexDirection="column">
       <NavBar openMobileSideMenu={openMobileSideMenu} />
-      <Box display="flex" flexGrow={1}>
+      <Box display="flex" flexGrow={1} {...contentBoxProps}>
         <SideMenu
           showMobileSideMenu={showMobileSideMenu}
           onCloseMobileSideMenu={closeMobileSideMenu}

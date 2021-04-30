@@ -8,7 +8,7 @@ const getOrganizationsToReview = async () => {
   );
 
   const organizations = data.map((values) => ({
-    ref: values[0].id,
+    faunaId: values[0].id,
     domain: values[1],
     name: values[2],
     needs_review: values[3],

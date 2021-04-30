@@ -10,7 +10,8 @@
           "data": "./data",
           "helpers": "./helpers",
           "layouts": "./layouts",
-          "pages": "./pages"
+          "pages": "./pages",
+          "stores": "./stores"
         }
       }
     ]
