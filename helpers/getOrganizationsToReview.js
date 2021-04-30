@@ -8,10 +8,11 @@ const getOrganizationsToReview = async () => {
   );
 
   const organizations = data.map((values) => ({
-    faunaId: values[0].id,
+    reviewedOrCreatedAt: values[0],
     domain: values[1],
-    name: values[2],
-    needs_review: values[3],
+    faunaId: values[2].id,
+    name: values[3],
+    needsReview: values[4],
   }));
 
   return organizations;

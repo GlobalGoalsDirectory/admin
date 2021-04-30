@@ -13,6 +13,16 @@ CreateIndex({
   source: {
     collection: Collection("organizations"),
     fields: {
+      reviewed_or_created_at: Query(
+        Lambda(
+          "doc",
+          If(
+            Not(IsNull(Select(["data", "reviewed_at"], Var("doc"), null))),
+            Select(["data", "reviewed_at"], Var("doc")),
+            Select(["data", "created_at"], Var("doc"), "2021-01-01T00:00:00")
+          )
+        )
+      ),
       needs_review: Query(
         Lambda(
           "doc",
@@ -32,8 +42,9 @@ CreateIndex({
   },
   terms: [{ binding: "needs_review" }],
   values: [
-    { field: ["ref"] },
+    { binding: "reviewed_or_created_at" },
     { field: ["data", "domain"] },
+    { field: ["ref"] },
     { field: ["data", "data", "name"] },
     { binding: "needs_review" },
   ],
