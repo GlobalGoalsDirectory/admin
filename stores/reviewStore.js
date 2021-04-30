@@ -50,9 +50,20 @@ export const setupReviewStore = ({
       this.steps = this.steps.filter((step) => step.field != field);
     },
     getSuggestedValueForField(field) {
-      if (storedValue === lastReviewedValue) return extractedValue;
+      const {
+        storedValue,
+        reviewedValue,
+        extractedValue,
+      } = this.getDataForField(field);
 
-      return dataValue;
+      if (storedValue === reviewedValue) return extractedValue;
+
+      return storedValue;
+    },
+    hasValueForFieldChangedSinceLastReview(field) {
+      const { reviewedValue, extractedValue } = this.getDataForField(field);
+
+      return reviewedValue != extractedValue;
     },
     get currentField() {
       return this.currentStep?.field;

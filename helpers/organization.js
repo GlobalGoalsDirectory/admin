@@ -7,6 +7,7 @@ const DATABASE_KEY_MAP = {
   last_extraction_data_hash: "lastExtractionDataHash",
   reviewed_at: "reviewedAt",
   reviewed_by: "reviewedBy",
+  review_bypass: "reviewBypass",
 };
 
 const renameKeys = (object, keyMap) => {

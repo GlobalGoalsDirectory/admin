@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useLocalObservable } from "mobx-react-lite";
 import { Box, Card, Divider, Typography } from "@material-ui/core";
@@ -6,6 +7,16 @@ import { setupReviewStore, ReviewStoreProvider } from "stores/reviewStore";
 import ReviewStepList from "components/ReviewStepList";
 import ReviewStep from "components/ReviewStep";
 import ReviewConfirmation from "components/ReviewConfirmation";
+
+const FIELDS_TO_BYPASS = [
+  "address",
+  "state",
+  "country",
+  "latitude",
+  "longitude",
+  "total_score",
+  ...Array.from({ length: 17 }).map((_, i) => `sdg${i + 1}_score`),
+];
 
 const ReviewDomainPage = ({ organization }) => {
   const {
@@ -26,12 +37,30 @@ const ReviewDomainPage = ({ organization }) => {
     })
   );
 
+  // Some fields (address, SDG scores, ...) are bypassing the human review
+  // stage for now. We automatically accept the recommended course of action,
+  // i.e., the extracted value if stored === reviewed or, otherwise, the stored
+  // value.
+  useEffect(() => {
+    FIELDS_TO_BYPASS.filter(
+      reviewStore.hasValueForFieldChangedSinceLastReview
+    ).map((field) => {
+      reviewStore.setNewValueForField({
+        field,
+        newValue: reviewStore.getSuggestedValueForField(field),
+      });
+    });
+  }, []);
+
   const submitReview = async () => {
     const res = await fetch("/api/review/submit", {
       body: JSON.stringify({
         domain,
         newData: reviewStore.newData,
         lastExtractionDataHash,
+        bypass: Object.keys(reviewStore.newData).filter((key) =>
+          FIELDS_TO_BYPASS.includes(key)
+        ),
       }),
       headers: {
         Accept: "application/json",

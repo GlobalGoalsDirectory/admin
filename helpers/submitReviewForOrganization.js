@@ -1,5 +1,6 @@
 import reject from "lodash.reject";
 import pick from "lodash.pick";
+import uniq from "lodash.uniq";
 import { diff } from "deep-object-diff";
 import { q, client } from "helpers/fauna";
 import getOrganizationByDomain from "helpers/getOrganizationByDomain";
@@ -11,6 +12,11 @@ const submitReviewForOrganization = async ({
   newData,
   lastExtractionDataHash,
   reviewedBy,
+  // An array of fields that were not reviewed by a human. For example, these
+  // could be fields that are automatically set by the computer, that are
+  // directly committed without human review. The main reason for this scenario
+  // is that a certain field does not yet have a review step implemented.
+  bypass = [],
 }) => {
   // Verify newData only contains allowed properties
   const forbiddenFields = reject(Object.keys(newData), isReviewableField);
@@ -32,7 +38,11 @@ const submitReviewForOrganization = async ({
 
   // Check if review is complete (all fields in need of review have data to
   // update)
-  const { reviewedExtractionData, lastExtractionData } = organization;
+  const {
+    reviewedExtractionData,
+    lastExtractionData,
+    reviewBypass = [],
+  } = organization;
   const changedFields = diff(reviewedExtractionData, lastExtractionData);
   const fieldsToReview = Object.keys(changedFields).filter(isReviewableField);
   const isCompleteReview = fieldsToReview.every((field) =>
@@ -44,6 +54,7 @@ const submitReviewForOrganization = async ({
     data: newData,
     reviewedAt: new Date().toISOString(),
     reviewedBy,
+    reviewBypass: uniq([...reviewBypass, ...bypass]),
   };
 
   if (isCompleteReview) {

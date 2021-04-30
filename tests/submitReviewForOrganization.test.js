@@ -9,10 +9,15 @@ const organizationInDatabase = {
   ref: 123,
   domain: "test.com",
   data: {},
-  lastExtractionData: { name: "B", about: "hello world" },
+  lastExtractionData: {
+    name: "B",
+    about: "hello world",
+    address: "street # 123",
+  },
   lastExtractionDataHash: "extraction-hash",
   reviewedExtractionData: { name: "A", about: "lorem ipsum" },
   reviewedExtractionDataHash: "reviewed-hash",
+  reviewBypass: ["state"],
 };
 
 beforeEach(() => {
@@ -34,20 +39,21 @@ describe("when submitting invalid lastExtractionDataHash", () => {
 });
 
 describe("when performing full review", () => {
-  test("it updates reviewed_data_extraction_hash", async () => {
+  test("it updates reviewed_extraction_data_hash", async () => {
     await submitReviewForOrganization({
       domain: "test.com",
-      newData: { name: "new name", about: "new about" },
+      newData: { name: "new name", about: "new about", address: "new street" },
       lastExtractionDataHash: "extraction-hash",
       reviewedBy: "user@example.com",
     });
 
     expect(q.Update.mock.calls[0][1].data).toEqual({
-      data: { name: "new name", about: "new about" },
+      data: { name: "new name", about: "new about", address: "new street" },
       reviewed_extraction_data: organizationInDatabase.lastExtractionData,
       reviewed_extraction_data_hash: "extraction-hash",
       reviewed_at: expect.anything(),
       reviewed_by: "user@example.com",
+      review_bypass: ["state"],
     });
   });
 });
@@ -72,8 +78,33 @@ describe("when performing partial review", () => {
       },
       reviewed_at: expect.anything(),
       reviewed_by: "user@example.com",
+      review_bypass: ["state"],
     });
 
     expect(updateData).not.toHaveProperty("reviewed_extraction_data_hash");
+  });
+});
+
+describe("when bypassing a field", () => {
+  test("it updates review_bypass", async () => {
+    await submitReviewForOrganization({
+      domain: "test.com",
+      newData: { address: "example" },
+      lastExtractionDataHash: "extraction-hash",
+      reviewedBy: "user@example.com",
+      bypass: ["address"],
+    });
+
+    expect(q.Update.mock.calls[0][1].data).toEqual({
+      data: {
+        address: "example",
+      },
+      reviewed_extraction_data: {
+        address: organizationInDatabase.lastExtractionData.address,
+      },
+      reviewed_at: expect.anything(),
+      reviewed_by: "user@example.com",
+      review_bypass: ["state", "address"],
+    });
   });
 });

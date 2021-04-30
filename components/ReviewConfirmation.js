@@ -63,6 +63,8 @@ const ReviewConfirmation = observer(({ submitReview }) => {
             <Typography variant="h6">Location</Typography>
           </Box>
           <ReviewField field="address" />
+          <ReviewField field="state" />
+          <ReviewField field="country" />
           <ReviewField field="latitude" />
           <ReviewField field="longitude" />
 
