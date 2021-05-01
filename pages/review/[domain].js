@@ -87,7 +87,7 @@ const ReviewDomainPage = ({ organization }) => {
         <Box display="flex" flexDirection="column" flexGrow={1} clone>
           <Card>
             <Box display="flex" flexDirection="row" height={1}>
-              <Box width={240}>
+              <Box width={240} minWidth={240}>
                 <ReviewStepList />
               </Box>
               <Divider orientation="vertical" />
