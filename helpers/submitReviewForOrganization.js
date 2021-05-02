@@ -12,6 +12,7 @@ const submitReviewForOrganization = async ({
   newData,
   lastExtractionDataHash,
   reviewedBy,
+  comment,
   // An array of fields that were not reviewed by a human. For example, these
   // could be fields that are automatically set by the computer, that are
   // directly committed without human review. The main reason for this scenario
@@ -56,6 +57,9 @@ const submitReviewForOrganization = async ({
     reviewedBy,
     reviewBypass: uniq([...reviewBypass, ...bypass]),
   };
+
+  // Add review comment, unless null
+  if (comment != null) updateData.comment = comment;
 
   if (isCompleteReview) {
     updateData.reviewedExtractionData = lastExtractionData;

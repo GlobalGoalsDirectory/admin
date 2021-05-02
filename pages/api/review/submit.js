@@ -20,13 +20,20 @@ export default async function handler(req, res) {
     return error("invalid-request", "Request must use POST method.");
   }
 
-  const { domain, newData, lastExtractionDataHash, bypass = [] } = req.body;
+  const {
+    domain,
+    newData,
+    lastExtractionDataHash,
+    comment,
+    bypass = [],
+  } = req.body;
 
   try {
     await submitReviewForOrganization({
       domain,
       newData,
       lastExtractionDataHash,
+      comment,
       bypass,
       reviewedBy: user.email,
     });

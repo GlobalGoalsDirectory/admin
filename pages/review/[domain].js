@@ -26,6 +26,7 @@ const ReviewDomainPage = ({ organization }) => {
     lastExtractionData,
     lastExtractionDataHash,
     reviewedExtractionData,
+    comment,
   } = organization;
 
   const router = useRouter();
@@ -52,12 +53,13 @@ const ReviewDomainPage = ({ organization }) => {
     });
   }, []);
 
-  const submitReview = async () => {
+  const submitReview = async ({ comment }) => {
     const res = await fetch("/api/review/submit", {
       body: JSON.stringify({
         domain,
         newData: reviewStore.newData,
         lastExtractionDataHash,
+        comment,
         bypass: Object.keys(reviewStore.newData).filter((key) =>
           FIELDS_TO_BYPASS.includes(key)
         ),
@@ -100,7 +102,10 @@ const ReviewDomainPage = ({ organization }) => {
                 <ReviewStep field="facebook_handle" />
                 <ReviewStep field="twitter_handle" />
                 <ReviewStep field="linkedin_handle" />
-                <ReviewConfirmation submitReview={submitReview} />
+                <ReviewConfirmation
+                  comment={comment}
+                  submitReview={submitReview}
+                />
               </Box>
             </Box>
           </Card>
@@ -125,6 +130,7 @@ export const getServerSideProps = withAuthentication(async ({ params }) => {
         "lastExtractionData",
         "reviewedExtractionData",
         "lastExtractionDataHash",
+        "comment",
       ]),
     },
   };
