@@ -2,22 +2,22 @@ import { useEffect } from "react";
 import { observer, useLocalObservable } from "mobx-react-lite";
 import { Box, Divider, Typography } from "@material-ui/core";
 import { useReviewStore } from "stores/reviewStore";
-import ReviewTextField from "components/ReviewTextField";
+import ReviewInput from "components/ReviewInput";
 import ReviewOption from "components/ReviewOption";
 import ReviewActions from "components/ReviewActions";
 import toTitleCase from "helpers/toTitleCase";
 import {
   getReviewColorForValue,
-  getReviewColorForAction,
   getPrimaryActionForValue,
 } from "helpers/review";
 
-const ReviewStep = observer(({ field, label, ...props }) => {
+const ReviewStep = observer(({ field, label, type = "string" }) => {
   const reviewStore = useReviewStore();
 
   const stepStore = useLocalObservable(() => ({
     ...reviewStore.getDataForField(field),
     newValue: null,
+    fieldType: type,
     setNewValue(value) {
       if (value === "") value = null;
       this.newValue = value;
@@ -81,21 +81,12 @@ const ReviewStep = observer(({ field, label, ...props }) => {
   return (
     <Box display="flex" flexDirection="column" height={1}>
       <Box flexGrow="1" style={{ overflowY: "auto" }}>
-        <Box padding={4}>
+        <Box marginX={4} marginTop={4} marginBottom={3}>
           <Typography variant="h2" gutterBottom>
             {label}
           </Typography>
-          <Box marginTop={3}>
-            <ReviewTextField
-              id={field}
-              label={label}
-              value={stepStore.newValue}
-              onChange={(event) => stepStore.setNewValue(event.target.value)}
-              color={getReviewColorForAction(stepStore.primaryAction)}
-              {...props}
-            />
-          </Box>
         </Box>
+        <ReviewInput field={field} label={label} stepStore={stepStore} />
         <Divider />
         <ReviewOption
           label="Current"

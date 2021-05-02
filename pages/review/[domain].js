@@ -92,9 +92,10 @@ const ReviewDomainPage = ({ organization }) => {
               </Box>
               <Divider orientation="vertical" />
               <Box flexGrow={1}>
+                <ReviewStep field="logo" type="image" />
                 <ReviewStep field="name" />
                 <ReviewStep field="homepage" />
-                <ReviewStep field="about" multiline />
+                <ReviewStep field="about" type="text" />
 
                 <ReviewStep field="facebook_handle" />
                 <ReviewStep field="twitter_handle" />

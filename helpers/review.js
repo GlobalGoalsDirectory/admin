@@ -45,6 +45,7 @@ const ACTIONS = {
 // provided by the user
 export const isReviewableField = (field) =>
   [
+    "logo",
     "name",
     "homepage",
     "about",
