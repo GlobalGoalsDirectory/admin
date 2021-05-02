@@ -32,9 +32,6 @@ const ReviewStep = observer(({ field, label, type = "string" }) => {
     get suggestedValue() {
       return reviewStore.getSuggestedValueForField(field);
     },
-    get hasValueChangedSinceLastReview() {
-      return reviewStore.hasValueForFieldChangedSinceLastReview(field);
-    },
     // The initial suggested action, either accept or keep
     get suggestedAction() {
       return getPrimaryActionForValue(this.suggestedValue, this.values);
@@ -66,11 +63,6 @@ const ReviewStep = observer(({ field, label, type = "string" }) => {
 
   useEffect(() => {
     stepStore.setNewValue(stepStore.suggestedValue);
-
-    // If there is a match between reviewed and last extracted value, no review
-    // is necessary
-    if (!stepStore.hasValueChangedSinceLastReview) return;
-
     reviewStore.addStep({ label, field });
 
     return () => reviewStore.removeStep({ field });

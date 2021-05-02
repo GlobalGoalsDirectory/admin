@@ -10,6 +10,7 @@ import {
   CloseThick,
   Circle,
   LeadPencil,
+  Percent,
   SkipNext,
 } from "mdi-material-ui";
 
@@ -38,6 +39,10 @@ const ACTIONS = {
     color: gray[500],
     icon: <Circle />,
   },
+  IGNORE: {
+    color: gray[300],
+    icon: <Percent />,
+  },
 };
 
 // Return true if field is reviewable by user
@@ -65,6 +70,12 @@ export const getPrimaryActionForValue = (
   value,
   { storedValue, reviewedValue, extractedValue }
 ) => {
+  if (
+    value === extractedValue &&
+    value === reviewedValue &&
+    value === storedValue
+  )
+    return "IGNORE";
   if (value === extractedValue) return "ACCEPT";
   if (value === reviewedValue && value === storedValue) return "REJECT";
   if (value === storedValue) return "KEEP";

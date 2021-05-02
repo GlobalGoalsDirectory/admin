@@ -34,6 +34,8 @@ const MODIFY = {
 };
 
 const getAvailableActions = (stepStore) => {
+  if (stepStore.primaryAction === "IGNORE") return [SKIP];
+
   if (
     stepStore.primaryAction === "ACCEPT" &&
     stepStore.suggestedAction === "ACCEPT" &&

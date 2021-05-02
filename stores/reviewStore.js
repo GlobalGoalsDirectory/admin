@@ -28,7 +28,8 @@ export const setupReviewStore = ({
     // etc...)
     getCommittedActionForField(field) {
       if (this.skippedFields.includes(field)) return "SKIP";
-      if (!this.newData.hasOwnProperty(field)) return "PENDING";
+      if (!this.newData.hasOwnProperty(field))
+        return this.doesFieldNeedReview(field) ? "PENDING" : "IGNORE";
 
       return getPrimaryActionForValue(
         this.newData[field],
@@ -44,7 +45,8 @@ export const setupReviewStore = ({
       this.removeStep(newStep);
       this.steps = [...this.steps, newStep];
 
-      if (this.currentStep == null) this.currentStep = newStep;
+      if (this.currentStep == null && this.doesFieldNeedReview(newStep.field))
+        this.currentStep = newStep;
     },
     removeStep({ field }) {
       this.steps = this.steps.filter((step) => step.field != field);
@@ -60,6 +62,16 @@ export const setupReviewStore = ({
 
       return storedValue;
     },
+    doesFieldNeedReview(field) {
+      if (field === "confirmation") return true;
+
+      return this.hasValueForFieldChangedSinceLastReview(field);
+    },
+    hasFieldBeenReviewed(field) {
+      if (field === "confirmation") return false;
+
+      return this.newData.hasOwnProperty(field);
+    },
     hasValueForFieldChangedSinceLastReview(field) {
       const { reviewedValue, extractedValue } = this.getDataForField(field);
 
@@ -74,7 +86,9 @@ export const setupReviewStore = ({
     skipField(field) {
       delete this.newData[field];
       this.unskipField(field);
-      this.skippedFields = [...this.skippedFields, field];
+
+      if (this.doesFieldNeedReview(field))
+        this.skippedFields = [...this.skippedFields, field];
     },
     unskipField(field) {
       this.skippedFields = this.skippedFields.filter(
@@ -89,7 +103,13 @@ export const setupReviewStore = ({
       const stepIndex = this.steps.findIndex(
         (step) => step.field === this.currentField
       );
-      this.currentStep = this.steps[stepIndex + 1];
+      this.currentStep = this.steps
+        .slice(stepIndex + 1)
+        .find(
+          (step) =>
+            this.doesFieldNeedReview(step.field) ||
+            this.hasFieldBeenReviewed(step.field)
+        );
     },
   });
 };

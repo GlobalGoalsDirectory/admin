@@ -12,6 +12,18 @@ import {
   getReviewIconForAction,
 } from "helpers/review";
 
+const getTextColor = ({ field, currentField, reviewStore }) => {
+  if (field === currentField) return "primary.contrastText";
+
+  if (
+    !reviewStore.doesFieldNeedReview(field) &&
+    !reviewStore.hasFieldBeenReviewed(field)
+  )
+    return "#959393";
+
+  return null;
+};
+
 const ReviewStepList = observer(() => {
   const reviewStore = useReviewStore();
   const currentField = reviewStore.currentField;
@@ -24,7 +36,7 @@ const ReviewStepList = observer(() => {
         <Box
           key={field}
           bgcolor={field === currentField ? "primary.main" : null}
-          color={field === currentField ? "primary.contrastText" : null}
+          color={getTextColor({ field, currentField, reviewStore })}
           clone
         >
           <ListItem
