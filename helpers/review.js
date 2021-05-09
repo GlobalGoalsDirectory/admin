@@ -54,6 +54,7 @@ export const isReviewableField = (field) =>
     "name",
     "homepage",
     "about",
+    "commitment_url",
     "address",
     "state",
     "country",

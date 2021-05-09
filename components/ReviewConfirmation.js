@@ -74,6 +74,8 @@ const ReviewConfirmation = observer(
             <ReviewField field="name" />
             <ReviewField field="homepage" />
             <ReviewField field="about" type="text" />
+            <ReviewField label="Commitment" field="commitment_url" />
+
             <Box marginTop={3} marginBottom={1}>
               <Typography variant="h6">Location</Typography>
             </Box>

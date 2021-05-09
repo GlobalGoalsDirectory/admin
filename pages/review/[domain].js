@@ -98,6 +98,18 @@ const ReviewDomainPage = ({ organization }) => {
                 <ReviewStep field="name" />
                 <ReviewStep field="homepage" />
                 <ReviewStep field="about" type="text" />
+                <ReviewStep
+                  label="Commitment"
+                  field="commitment_url"
+                  reviewOptions={lastExtractionData.alt_commitment_urls.map(
+                    (item, index) => ({
+                      label: `Option #${index + 1}`,
+                      value: item.url,
+                      key: item.url,
+                      context: `"...${item.context}..." (count: ${item.count}, tag: ${item.tag})`,
+                    })
+                  )}
+                />
 
                 <ReviewStep field="facebook_handle" />
                 <ReviewStep field="twitter_handle" />
