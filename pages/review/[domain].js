@@ -102,7 +102,7 @@ const ReviewDomainPage = ({ organization }) => {
                 <ReviewStep
                   label="Commitment"
                   field="commitment_url"
-                  reviewOptions={lastExtractionData.alt_commitment_urls.map(
+                  reviewOptions={lastExtractionData?.alt_commitment_urls?.map(
                     (item, index) => ({
                       label: `Option #${index + 1}`,
                       value: item.url,

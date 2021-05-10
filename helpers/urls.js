@@ -1,2 +1,2 @@
-export const reviewOrganisationUrl = ({ domain }) =>
+export const reviewOrganizationUrl = ({ domain }) =>
   `/review/${encodeURIComponent(domain)}`;

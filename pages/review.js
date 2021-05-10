@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Box, Button, Paper, Typography } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
 import AppLayout from "layouts/AppLayout";
-import { reviewOrganisationUrl } from "helpers/urls";
+import { reviewOrganizationUrl } from "helpers/urls";
 
 const COLUMNS = [
   { field: "id", headerName: "Domain", flex: 1 },
@@ -14,7 +14,7 @@ const COLUMNS = [
     filterable: false,
     disableColumnMenu: true,
     renderCell: ({ row }) => (
-      <Link href={reviewOrganisationUrl(row)} passHref>
+      <Link href={reviewOrganizationUrl(row)} passHref>
         <Button variant="contained" color="primary" size="small">
           Review
         </Button>
