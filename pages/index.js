@@ -1,6 +1,8 @@
+import Link from "next/link";
 import { Box, Button, Paper, Typography } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
 import AppLayout from "layouts/AppLayout";
+import { viewOrganizationUrl } from "helpers/urls";
 
 const COLUMNS = [
   { field: "id", headerName: "Domain", flex: 1 },
@@ -12,9 +14,11 @@ const COLUMNS = [
     filterable: false,
     disableColumnMenu: true,
     renderCell: ({ row }) => (
-      <Button variant="contained" color="primary" size="small">
-        View
-      </Button>
+      <Link href={viewOrganizationUrl(row)} passHref>
+        <Button variant="contained" color="primary" size="small">
+          View
+        </Button>
+      </Link>
     ),
   },
 ];
