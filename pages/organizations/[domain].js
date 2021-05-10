@@ -44,7 +44,7 @@ const ViewDomainPage = ({ organization }) => {
             <Typography variant="body1">SDGs score: {sdgs_score}</Typography>
           </Box>
           {Array.from({ length: 17 }).map((_, i) => (
-            <Box marginBottom={1}>
+            <Box marginBottom={1} key={i}>
               <Typography variant="body1">
                 SDG {i + 1} score: {data[`sdg${i + 1}_score`]}
               </Typography>
