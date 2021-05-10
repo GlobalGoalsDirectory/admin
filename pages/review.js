@@ -8,7 +8,7 @@ const COLUMNS = [
   { field: "id", headerName: "Domain", flex: 1 },
   { field: "name", headerName: "Name", flex: 1 },
   {
-    field: "View",
+    field: "Actions",
     headerName: "",
     sortable: false,
     filterable: false,
