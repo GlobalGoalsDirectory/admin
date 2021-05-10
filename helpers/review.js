@@ -61,6 +61,7 @@ export const isReviewableField = (field) =>
     "latitude",
     "longitude",
     "total_score",
+    "sdgs_score",
     ...Array.from({ length: 17 }).map((_, i) => `sdg${i + 1}_score`),
     "facebook_handle",
     "twitter_handle",

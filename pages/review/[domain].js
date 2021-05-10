@@ -15,6 +15,7 @@ const FIELDS_TO_BYPASS = [
   "latitude",
   "longitude",
   "total_score",
+  "sdgs_score",
   ...Array.from({ length: 17 }).map((_, i) => `sdg${i + 1}_score`),
 ];
 
