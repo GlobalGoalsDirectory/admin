@@ -1,7 +1,10 @@
 import authenticate from "helpers/authenticate";
 import submitReviewForOrganization from "helpers/submitReviewForOrganization";
+import doNotWaitForEmptyEventLoop from "helpers/doNotWaitForEmptyEventLoop";
 
 export default async function handler(req, res) {
+  doNotWaitForEmptyEventLoop({ req, res });
+
   const user = await authenticate({ req, res });
 
   if (!user) {
