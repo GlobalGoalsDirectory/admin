@@ -58,7 +58,7 @@ const getAvailableActions = (stepStore) => {
 const ReviewActions = observer(({ stepStore }) => (
   <Box paddingX={4} paddingY={2} display="flex" justifyContent="flex-end">
     {getAvailableActions(stepStore).map(({ id, label, onClick }) => (
-      <Box key={id} marginLeft={1} clone>
+      <Box key={id} marginLeft={1}>
         <Button
           color="primary"
           variant="contained"
