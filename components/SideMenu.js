@@ -6,6 +6,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import {
+  Cancel,
   CheckboxMarkedCircleOutline,
   Domain,
   LogoutVariant,
@@ -88,6 +89,14 @@ const DrawerContent = () => {
               <CheckboxMarkedCircleOutline />
             </ListItemIcon>
             <ListItemText primary="Review" />
+          </ListItem>
+        </Link>
+        <Link href="/rejections" passHref>
+          <ListItem button component="a">
+            <ListItemIcon>
+              <Cancel />
+            </ListItemIcon>
+            <ListItemText primary="Rejections" />
           </ListItem>
         </Link>
       </List>

@@ -26,7 +26,7 @@ const COLUMNS = [
 const HomePage = ({ organizations }) => (
   <AppLayout>
     <Typography variant="h1" gutterBottom>
-      Organizations
+      Rejected Organizations
     </Typography>
     <Box display="flex" flexGrow={1} clone>
       <Paper>
@@ -42,10 +42,10 @@ const HomePage = ({ organizations }) => (
 );
 
 import withAuthentication from "helpers/withAuthentication";
-import getPublishedOrganizations from "helpers/getPublishedOrganizations";
+import getRejectedOrganizations from "helpers/getRejectedOrganizations";
 
 export const getServerSideProps = withAuthentication(async () => {
-  const organizations = await getPublishedOrganizations();
+  const organizations = await getRejectedOrganizations();
 
   return {
     props: {
