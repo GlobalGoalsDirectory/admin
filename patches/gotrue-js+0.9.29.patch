@@ -3,22 +3,21 @@ index 53587ae..c349272 100644
 --- a/node_modules/gotrue-js/lib/user.js
 +++ b/node_modules/gotrue-js/lib/user.js
 @@ -29,7 +29,11 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
- 
+
  function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
- 
+
 -var ExpiryMargin = 60 * 1000;
-+// Increase expiry margin to 15 minutes, so that a new JWT is issued in the
-+// last 15 minutes of its validity. Previously, this was set to one minute,
-+// which means that we would need to refresh the JWT every 10-30 seconds to be
-+// safe — that's too often
++// Increase expiry margin to 25 minutes, so that a new JWT is issued in the
++// last 25 minutes of its validity. Previously, this was set to one minute,
++// but it looks like the cookie actually expires 45 minutes after it is set.
 +var ExpiryMargin = 15 * 60 * 1000;
  var storageKey = 'gotrue.user';
  var refreshPromises = {};
  var currentUser = null;
 @@ -284,6 +288,14 @@ var User = /*#__PURE__*/function () {
- 
+
  exports["default"] = User;
- 
+
 +function atob(string) {
 +  if(isBrowser()) {
 +    return window.atob(string)
@@ -33,10 +32,10 @@ index 53587ae..c349272 100644
 @@ -304,8 +316,7 @@ function urlBase64Decode(str) {
        throw 'Illegal base64url string!';
    } // polifyll https://github.com/davidchambers/Base64.js
- 
+
 -
 -  var result = window.atob(output);
 +  var result = atob(output)
- 
+
    try {
      return decodeURIComponent(escape(result));
