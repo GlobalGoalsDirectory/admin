@@ -11,6 +11,7 @@ import {
   Domain,
   LogoutVariant,
   LoginVariant,
+  Plus,
 } from "mdi-material-ui";
 import styled from "styled-components";
 import useUser from "helpers/useUser";
@@ -99,6 +100,17 @@ const DrawerContent = () => {
             <ListItemText primary="Rejections" />
           </ListItem>
         </Link>
+        <ListItem
+          button
+          component="a"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSeLfYNq3yZX6VmQHXNXcP3TrjD8w22gSqzmPgSUyoR0cYZqmA/viewform"
+          target="_blank"
+        >
+          <ListItemIcon>
+            <Plus />
+          </ListItemIcon>
+          <ListItemText primary="Add organization" />
+        </ListItem>
       </List>
       <Divider />
       <List>
