@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Box, Button, Paper, Typography } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
 import AppLayout from "layouts/AppLayout";
+import ExportOrganizationsButton from "components/ExportOrganizationsButton";
 import { viewOrganizationUrl } from "helpers/urls";
 
 const COLUMNS = [
@@ -25,9 +26,16 @@ const COLUMNS = [
 
 const HomePage = ({ organizations }) => (
   <AppLayout>
-    <Typography variant="h1" gutterBottom>
-      Organizations
-    </Typography>
+    <Box display="flex" alignItems="center">
+      <Typography variant="h1" gutterBottom>
+        Organizations
+      </Typography>
+      <Box flexGrow={1} align="right">
+        <ExportOrganizationsButton
+          organizationIds={organizations.map((org) => org.faunaId)}
+        />
+      </Box>
+    </Box>
     <Box display="flex" flexGrow={1} clone>
       <Paper>
         <DataGrid
